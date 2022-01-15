@@ -1,17 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
-
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {
-  Accordion,
-  Button,
-  Card,
-  Form,
-  FormControl,
-  InputGroup,
-} from "react-bootstrap";
+import { Button, FormControl, InputGroup } from "react-bootstrap";
 import ethereum_address from "ethereum-address";
 import axios from "axios";
 import CollectionInfo from "./CollectionInfo";
@@ -21,15 +13,12 @@ import ManualInputForm from "./ManualInputForm";
 import OpenseaSearch from "./OpenseaSearch";
 
 function App() {
-  const API_URL = "http://localhost:5000";
   const [query, setQuery]: [any, any] = useState("");
   const [collectionInfo, setCollectionInfo]: [any, any] = useState();
-  const [rarities, setRarities]: [any, any] = useState();
   const [isInputValid, setIsInputValid]: [any, any] = useState(true);
   const [showValidLabel, setShowValidLabel]: [any, any] = useState(false);
   const [isLoading, setIsLoading]: any = useState(false);
   const [isLoadingRarities, setIsLoadingRarities] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<any | undefined>();
 
   const onEnterPress = (e: any) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -41,10 +30,9 @@ function App() {
   };
 
   const fetchData = () => {
-    setErrorMessage("");
     setIsLoading(true);
     axios
-      .get(`${API_URL}/getCollectionInfo/${query}`)
+      .get(`${process.env.REACT_APP_API_URL}/getCollectionInfo/${query}`)
       .then((resp) => {
         console.log(resp);
         const res = resp.data;
@@ -92,7 +80,10 @@ function App() {
     };
     console.log(data);
     axios
-      .post(`${API_URL}/calculateRarityManual/${addr}`, data)
+      .post(
+        `${process.env.REACT_APP_API_URL}/calculateRarityManual/${addr}`,
+        data
+      )
       .then((resp) => {
         console.log(resp);
         const res = resp.data;
@@ -109,7 +100,7 @@ function App() {
   const calculateRarities = () => {
     setIsLoadingRarities(true);
     axios
-      .post(`${API_URL}/calculateRarity/${query}`)
+      .post(`${process.env.REACT_APP_API_URL}/calculateRarity/${query}`)
       .then((resp) => {
         const res = resp.data;
         if (res.rarities) res.rarities = JSON.parse(res.rarities);

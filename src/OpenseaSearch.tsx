@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
   Button,
   Card,
-  Form,
   FormControl,
   InputGroup,
   Spinner,
@@ -48,7 +47,7 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
   const getOSStatus = async (i: number) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/getOpenseaStatus/${addr}/${ids[i]}`
+        `${process.env.REACT_APP_API_URL}/getOpenseaStatus/${addr}/${ids[i]}`
       );
       const data = res.data;
       if (data.listed) {
