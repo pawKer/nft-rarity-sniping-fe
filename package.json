@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "@types/ethereum-address": "file:./@types/ethereum-address",
     "@types/jest": "^27.4.0",
     "@types/node": "^16.11.19",
     "@types/react": "^17.0.38",
@@ -22,9 +23,6 @@
     "serve": "^13.0.2",
     "typescript": "^4.5.4",
     "web-vitals": "^2.1.3"
-  },
-  "devDependencies": {
-    "@types/ethereum-address": "file:./@types/ethereum-address"
   },
   "scripts": {
     "start": "serve -s build",
