@@ -16,6 +16,7 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
   const [rangeEnd, setRangeEnd]: [any, any] = useState(10);
   const [isRangeStartValid, setIsRangeStartValid]: [any, any] = useState(true);
   const [isRangeEndValid, setIsRangeEndValid]: [any, any] = useState(true);
+  const MAX_RANGE = 10;
 
   const onChangeRangeStart = (e: any) => {
     setRangeStart(e.target.value);
@@ -23,7 +24,7 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
       e.target.value < 1 ||
       e.target.value > collectionInfo.totalSupply ||
       e.target.value > rangeEnd ||
-      rangeEnd - e.target.value > 100
+      rangeEnd - e.target.value > MAX_RANGE
     ) {
       setIsRangeStartValid(false);
     } else {
@@ -37,7 +38,7 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
       e.target.value < 1 ||
       e.target.value > collectionInfo.totalSupply ||
       e.target.value < rangeStart ||
-      e.target.value - rangeStart > 100
+      e.target.value - rangeStart > MAX_RANGE
     ) {
       setIsRangeEndValid(false);
     } else {
@@ -105,7 +106,12 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
     >
       <Card.Body>
         <h5>OpenSea</h5>
-        <p>Search the rarity range below on OpenSea. Max range is 100.</p>
+        <p>
+          Search the rarity range below on OpenSea. Max range is {MAX_RANGE}.
+        </p>
+        <p style={{ color: "red" }}>
+          Might not work currently due to OpenSea api rate limiting.
+        </p>
         <InputGroup className="mb-3" hasValidation={true}>
           <InputGroup.Text>Range start</InputGroup.Text>
           <FormControl
@@ -149,7 +155,9 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
             />
           )}
         </Button>
-        <ul className="py-3">{getListedElements()}</ul>
+        {listedTokens.length > 0 && (
+          <ul className="py-3">{getListedElements()}</ul>
+        )}
       </Card.Body>
     </Card>
   );
