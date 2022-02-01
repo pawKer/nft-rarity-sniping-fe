@@ -16,4 +16,4 @@ COPY --from=0 /usr/src/app/build ./build
 RUN npm install serve -g
 
 ENV NODE_ENV=prod
-CMD ["serve", "-s", "build"]
+CMD ["serve", "build"]
