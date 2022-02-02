@@ -1,6 +1,6 @@
 import { Accordion, Button, Form } from "react-bootstrap";
 
-const ManualInputForm = ({ handleSubmit }: any) => {
+const ManualInputForm = ({ handleSubmit, isLoadingRarities }: any) => {
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
@@ -34,7 +34,11 @@ const ManualInputForm = ({ handleSubmit }: any) => {
               </Form.Text>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Button
+              variant="primary"
+              type="submit"
+              disabled={isLoadingRarities}
+            >
               Calculate rarities
             </Button>
           </Form>

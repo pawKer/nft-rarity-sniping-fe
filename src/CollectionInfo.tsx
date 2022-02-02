@@ -1,10 +1,11 @@
-import { Button, Card, Spinner } from "react-bootstrap";
+import { Alert, Button, Card, Spinner } from "react-bootstrap";
 
 const CollectionInfo = ({
   isLoading,
   collectionInfo,
   calculateRarities,
   isLoadingRarities,
+  isMetadataRevealed,
 }: any) => {
   if (isLoading) {
     return <Spinner animation="border" variant="success" />;
@@ -26,6 +27,17 @@ const CollectionInfo = ({
             <a href={collectionInfo.tokenUri}>{collectionInfo.tokenUri}</a>
           </li>
         </ul>
+        {!isMetadataRevealed && (
+          <Alert variant={"warning"}>
+            <Alert.Heading>
+              Metadata looks like it is not revealed yet!
+            </Alert.Heading>
+            <p className="mb-0">
+              You can still calculate rarities if you know they're actually
+              revealed.
+            </p>
+          </Alert>
+        )}
         {!collectionInfo.calculated && (
           <Button
             onClick={calculateRarities}

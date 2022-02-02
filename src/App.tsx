@@ -18,6 +18,7 @@ function App() {
   const [isInputValid, setIsInputValid]: [any, any] = useState(true);
   const [showValidLabel, setShowValidLabel]: [any, any] = useState(false);
   const [isLoading, setIsLoading]: any = useState(false);
+  const [isMetadataRevealed, setIsMetadataRevealed]: any = useState(true);
   const [isLoadingRarities, setIsLoadingRarities] = useState(false);
 
   const onEnterPress = (e: any) => {
@@ -38,7 +39,18 @@ function App() {
         const res = resp.data;
         if (res.rarities) res.rarities = JSON.parse(res.rarities);
         setCollectionInfo(res);
-        setIsLoading(false);
+        axios
+          .get(`${process.env.REACT_APP_API_URL}/isMetadataRevealed/${query}`)
+          .then((resp) => {
+            console.log(resp);
+            const res = resp.data;
+            setIsMetadataRevealed(!!res.revealed);
+            setIsLoading(false);
+          })
+          .catch((error: any) => {
+            console.log(error);
+            setIsLoading(false);
+          });
       })
       .catch((error: any) => {
         console.log(error);
@@ -71,6 +83,7 @@ function App() {
     const target = event.target;
     console.log("submitting form...");
     setIsLoading(true);
+    setIsLoadingRarities(true);
     const addr = target.address.value;
     const data = {
       name: target.name.value,
@@ -90,10 +103,12 @@ function App() {
         if (res.rarities) res.rarities = JSON.parse(res.rarities);
         setCollectionInfo(res);
         setIsLoading(false);
+        setIsLoadingRarities(false);
       })
       .catch((error: any) => {
         console.log(error);
         setIsLoading(false);
+        setIsLoadingRarities(false);
       });
   };
 
@@ -117,8 +132,12 @@ function App() {
     <div className="App">
       <Container>
         <Row className="mb-3">
-          <Col>
-            <h1>Rarity Sniper (dupa 1 luna in Vaslui)</h1>
+          <Col className="my-auto mx-auto">
+            <h1>
+              <a href="/" style={{ textDecoration: "none", color: "black" }}>
+                Rarity Sniper (dupa 1 luna in Vaslui)
+              </a>
+            </h1>
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroup-sizing-default">
                 <Search />
@@ -149,13 +168,16 @@ function App() {
             </InputGroup>
           </Col>
         </Row>
-        <Row className="mb-3">
-          <Col>
-            {!collectionInfo && (
-              <ManualInputForm handleSubmit={handleSubmit}></ManualInputForm>
-            )}
-          </Col>
-        </Row>
+        {!collectionInfo && (
+          <Row className="mb-3">
+            <Col>
+              <ManualInputForm
+                handleSubmit={handleSubmit}
+                isLoadingRarities={isLoadingRarities}
+              ></ManualInputForm>
+            </Col>
+          </Row>
+        )}
         <Row className="mb-3">
           <Col>
             <CollectionInfo
@@ -163,6 +185,7 @@ function App() {
               collectionInfo={collectionInfo}
               calculateRarities={calculateRarities}
               isLoadingRarities={isLoadingRarities}
+              isMetadataRevealed={isMetadataRevealed}
             ></CollectionInfo>
           </Col>
         </Row>
