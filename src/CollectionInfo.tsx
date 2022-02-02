@@ -1,5 +1,13 @@
 import { Alert, Button, Card, Spinner } from "react-bootstrap";
 
+const IPFS_GATEWAY = "https://ipfs.io/ipfs/";
+const getHttpIpfsUrl = (url: string) => {
+  if (url.includes("ipfs://")) {
+    return IPFS_GATEWAY + url.split("ipfs://")[1];
+  }
+  return url;
+};
+
 const CollectionInfo = ({
   isLoading,
   collectionInfo,
@@ -24,7 +32,13 @@ const CollectionInfo = ({
           <li>First token id: {collectionInfo.firstTokenId}</li>
           <li>
             Token uri:{" "}
-            <a href={collectionInfo.tokenUri}>{collectionInfo.tokenUri}</a>
+            <a
+              href={getHttpIpfsUrl(collectionInfo.tokenUri)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {collectionInfo.tokenUri}
+            </a>
           </li>
         </ul>
         {!isMetadataRevealed && (
