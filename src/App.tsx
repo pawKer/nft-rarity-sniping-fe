@@ -20,6 +20,7 @@ function App() {
   const [isLoading, setIsLoading]: any = useState(false);
   const [isMetadataRevealed, setIsMetadataRevealed]: any = useState(true);
   const [isLoadingRarities, setIsLoadingRarities] = useState(false);
+  const [shouldForceRecalc, setShouldForceRecalc] = useState(false);
 
   const onEnterPress = (e: any) => {
     if (e.keyCode === 13 && e.shiftKey === false) {
@@ -71,6 +72,11 @@ function App() {
     return true;
   };
 
+  const handleSwitch = (event: any) => {
+    console.log(event.target.value);
+    setShouldForceRecalc(!shouldForceRecalc);
+  };
+
   const handleOnChange = (event: any) => {
     let isInputTextValid = isEthAddress(event.target.value);
     setIsInputValid(isInputTextValid);
@@ -115,7 +121,11 @@ function App() {
   const calculateRarities = () => {
     setIsLoadingRarities(true);
     axios
-      .post(`${process.env.REACT_APP_API_URL}/calculateRarity/${query}`)
+      .post(
+        `${process.env.REACT_APP_API_URL}/calculateRarity/${query}${
+          shouldForceRecalc ? "?force=true" : ""
+        }`
+      )
       .then((resp) => {
         const res = resp.data;
         if (res.rarities) res.rarities = JSON.parse(res.rarities);
@@ -186,6 +196,9 @@ function App() {
               calculateRarities={calculateRarities}
               isLoadingRarities={isLoadingRarities}
               isMetadataRevealed={isMetadataRevealed}
+              handleSwitch={handleSwitch}
+              shouldForceRecalc={shouldForceRecalc}
+              query={query}
             ></CollectionInfo>
           </Col>
         </Row>

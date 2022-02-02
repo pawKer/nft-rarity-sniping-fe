@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Spinner } from "react-bootstrap";
+import { Alert, Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 
 const IPFS_GATEWAY = "https://ipfs.io/ipfs/";
 const getHttpIpfsUrl = (url: string) => {
@@ -14,7 +14,28 @@ const CollectionInfo = ({
   calculateRarities,
   isLoadingRarities,
   isMetadataRevealed,
+  handleSwitch,
+  shouldForceRecalc,
+  query,
 }: any) => {
+  const shouldDisableButton = () => {
+    if (shouldForceRecalc) {
+      if (isLoadingRarities) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (isLoadingRarities) {
+        return true;
+      } else {
+        if (collectionInfo.calculated) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
   if (isLoading) {
     return <Spinner animation="border" variant="success" />;
   }
@@ -26,9 +47,24 @@ const CollectionInfo = ({
       <Card.Body>
         <Card.Title>{collectionInfo.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
-          Total supply: {collectionInfo.totalSupply}
+          <a
+            href={`https://etherscan.io/address/${query}#readContract`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Etherscan
+          </a>{" "}
+          -{" "}
+          <a
+            href={`https://opensea.io/assets/${query}/1`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Opensea
+          </a>
         </Card.Subtitle>
         <ul>
+          <li> Total supply: {collectionInfo.totalSupply} </li>
           <li>First token id: {collectionInfo.firstTokenId}</li>
           <li>
             Token uri:{" "}
@@ -52,15 +88,29 @@ const CollectionInfo = ({
             </p>
           </Alert>
         )}
-        {!collectionInfo.calculated && (
-          <Button
-            onClick={calculateRarities}
-            variant="success"
-            disabled={isLoadingRarities}
-          >
-            Calculate rarities for this collection
-          </Button>
-        )}
+
+        <Row>
+          <Col lg={2}>
+            <Button
+              onClick={calculateRarities}
+              variant="success"
+              disabled={shouldDisableButton()}
+            >
+              Calculate rarities for this collection
+            </Button>
+          </Col>
+          <Col lg={2}>
+            <Form>
+              <Form.Check
+                type="switch"
+                id="custom-switch"
+                label="Force recalculation"
+                onChange={handleSwitch}
+                disabled={!collectionInfo.calculated}
+              />
+            </Form>
+          </Col>
+        </Row>
       </Card.Body>
     </Card>
   );
