@@ -145,7 +145,7 @@ function App() {
           <Col className="my-auto mx-auto">
             <h1>
               <a href="/" style={{ textDecoration: "none", color: "black" }}>
-                Rarity Sniper (dupa 1 luna in Vaslui)
+                Rarity Sniper
               </a>
             </h1>
             <InputGroup hasValidation>
