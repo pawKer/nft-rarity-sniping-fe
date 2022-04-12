@@ -1,9 +1,13 @@
 import { Alert, Button, Card, Col, Form, Row, Spinner } from "react-bootstrap";
 
 const IPFS_GATEWAY = "https://ipfs.io/ipfs/";
-const getHttpIpfsUrl = (url: string) => {
+const getHttpIpfsUrl = (url: string, query: string) => {
   if (url.includes("ipfs://")) {
     return IPFS_GATEWAY + url.split("ipfs://")[1];
+  }
+
+  if (url.includes("base64")) {
+    return `https://etherscan.io/address/${query}#readContract`;
   }
   return url;
 };
@@ -69,11 +73,17 @@ const CollectionInfo = ({
           <li>
             Token uri:{" "}
             <a
-              href={getHttpIpfsUrl(collectionInfo.tokenUri)}
+              href={getHttpIpfsUrl(collectionInfo.tokenUri, query)}
               target="_blank"
               rel="noreferrer"
+              onClick={() =>
+                collectionInfo.tokenUri.contains("base64") &&
+                alert(collectionInfo.tokenUri)
+              }
             >
-              {collectionInfo.tokenUri}
+              {collectionInfo.tokenUri.includes("base64")
+                ? "<Metadata is in contract (base64)>"
+                : collectionInfo.tokenUri}
             </a>
           </li>
         </ul>
