@@ -78,7 +78,9 @@ const CollectionInfo = ({
   return (
     <Card>
       <Card.Body>
-        <Card.Title>{collectionInfo.name}</Card.Title>
+        <Card.Title style={{ fontWeight: "bold", fontSize: "2vh" }}>
+          {collectionInfo.name}
+        </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           <a
             href={`https://etherscan.io/address/${query}#readContract`}
