@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -11,9 +11,21 @@ import RarityInfo from "./RarityInfo";
 import { Search } from "react-bootstrap-icons";
 import ManualInputForm from "./ManualInputForm";
 import OpenseaSearch from "./OpenseaSearch";
+import { useNavigate, useParams } from "react-router-dom";
 
 function App() {
-  const [query, setQuery]: [any, any] = useState("");
+  let { address } = useParams();
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (address) {
+      let isInputTextValid = isEthAddress(address);
+      setIsInputValid(isInputTextValid);
+      setShowValidLabel(isInputTextValid);
+      if (isInputTextValid) fetchData();
+    }
+  }, [address]);
+
+  const [query, setQuery]: [any, any] = useState(address || "");
   const [collectionInfo, setCollectionInfo]: [any, any] = useState();
   const [isInputValid, setIsInputValid]: [any, any] = useState(true);
   const [showValidLabel, setShowValidLabel]: [any, any] = useState(false);
@@ -61,11 +73,10 @@ function App() {
 
   const handleSubmitForm = (event: any) => {
     event.preventDefault();
-    console.log("submitting form...");
-    fetchData();
+    navigate(`/col/${query}`);
   };
 
-  const isEthAddress = (addr: string) => {
+  const isEthAddress = (addr?: string) => {
     if (!ethereum_address.isAddress(addr)) {
       return false;
     }

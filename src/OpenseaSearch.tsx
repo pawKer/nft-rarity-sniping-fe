@@ -10,13 +10,13 @@ import {
 import { Search } from "react-bootstrap-icons";
 
 const OpenseaSearch = ({ addr, collectionInfo }: any) => {
+  const MAX_RANGE = 50;
   const [listedTokens, setListedTokens]: [any, any] = useState([]);
   const [isLoading, setIsLoading]: [any, any] = useState(false);
   const [rangeStart, setRangeStart]: [any, any] = useState(1);
-  const [rangeEnd, setRangeEnd]: [any, any] = useState(10);
+  const [rangeEnd, setRangeEnd]: [any, any] = useState(MAX_RANGE);
   const [isRangeStartValid, setIsRangeStartValid]: [any, any] = useState(true);
   const [isRangeEndValid, setIsRangeEndValid]: [any, any] = useState(true);
-  const MAX_RANGE = 10;
 
   const onChangeRangeStart = (e: any) => {
     setRangeStart(e.target.value);
@@ -66,15 +66,15 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
       console.error(e);
     }
   };
-  const searchOpensea = (event: any) => {
+  const searchOpensea = async (event: any) => {
     event.preventDefault();
     setListedTokens([]);
     setIsLoading(true);
     const proms = [];
     for (let i = rangeStart - 1; i < rangeEnd; i++) {
-      proms.push(getOSStatus(i));
+      await getOSStatus(i);
     }
-    Promise.all(proms).then(() => setIsLoading(false));
+    setIsLoading(false);
   };
 
   const getListedElements = () => {
@@ -109,9 +109,9 @@ const OpenseaSearch = ({ addr, collectionInfo }: any) => {
         <p>
           Search the rarity range below on OpenSea. Max range is {MAX_RANGE}.
         </p>
-        <p style={{ color: "red" }}>
+        {/* <p style={{ color: "red" }}>
           Might not work currently due to OpenSea api rate limiting.
-        </p>
+        </p> */}
         <InputGroup className="mb-3" hasValidation={true}>
           <InputGroup.Text>Range start</InputGroup.Text>
           <FormControl
