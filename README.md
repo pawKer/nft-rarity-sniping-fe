@@ -1,46 +1,49 @@
-# Getting Started with Create React App
+<h1 align="center">🔫<br>
+  Rarity Sniping
+</h1>
+<h3 align="center">Quickly rank the NFTs in a collection by rarity</h3>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center" > 
+<img src="./preview/sniper.gif" height="500px" />
+</div>
+<h3 align="center"><a href="https://rarity-sniping.herokuapp.com/" target="_blank">Live preview</a></h3>
 
-## Available Scripts
+## 💬 About
 
-In the project directory, you can run:
+This is the UI for an API (currently closed sourced) which calculates the rarities of the NFTs in a collection and ranks them. The UI allows a user to quickly search the rarity rank of a particular token id and look up sale information on OpenSea.
 
-### `npm start`
+This app is primarily useful just after the metadata for an NFT collection is revealed. This is because other public rarity ranking websites take some time to update the ranks, time in which some buy/sell decisions can be made before the general market gets the same information (rarity sniping).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🚀 How to use
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Simply enter the ETH address of the NFT contract you want to use and click search.
 
-### `npm test`
+Some information about the collection will be displayed such as the total supply and the token uri (the metadata location). If the rarities have already been calculated they will be displayed (only the top 100 shown but all are available) and you will be able to search for token ids.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can also force the recalculation if you think something has gone wrong.
 
-### `npm run build`
+The OpenSea section uses the OpenSea API to check whether the tokens in the rarity range provided are listed for sale.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+e.g. if the range is 1 to 5 it will look up the 5 rarest NFTs in the collection
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ❓ How it works
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The brain of the applications is really the API which supports a few different types of metadata (such as from json APIs, IPFS or in contract base64 encoded) and uses async http requests and threading to retrieve the metadata as fast as possible.
 
-### `npm run eject`
+The API is not fool proof because of the wide variety of NFT contracts and metadata storage solutions so it might not work sometimes.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The algorithm used to calculate the rarities is based on [this rarity.tools article](https://raritytools.medium.com/ranking-rarity-understanding-rarity-calculation-methods-86ceaeb9b98c) and also uses trait normalization. [rarity.tools](https://rarity.tools/) is a popular NFT rarity ranking website.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Collection information is stored in Firebase after calculation. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## ⚙ Tech
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- React
+- Bootstrap
+- TypeScript
+- Docker
 
-## Learn More
+## 📦 Deployment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Deployed on Heroku via Github.
+The repo also contains setup to run on a VM on Docker.
