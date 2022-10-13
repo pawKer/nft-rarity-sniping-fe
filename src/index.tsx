@@ -6,14 +6,12 @@ import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/col/:address" element={<App />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <HashRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/col/:address" element={<App />} />
+    </Routes>
+  </HashRouter>,
   document.getElementById("root")
 );
 
