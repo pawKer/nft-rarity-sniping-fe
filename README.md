@@ -6,7 +6,7 @@
 <div align="center" > 
 <img src="./preview/sniper.gif" height="500px" />
 </div>
-<h3 align="center"><a href="https://rarity-sniping.herokuapp.com/" target="_blank">Live preview</a></h3>
+<h3 align="center"><a href="https://rarity.reshra.xyz" target="_blank">Live preview</a></h3>
 
 ## 💬 About
 
@@ -34,7 +34,7 @@ The API is not fool proof because of the wide variety of NFT contracts and metad
 
 The algorithm used to calculate the rarities is based on [this rarity.tools article](https://raritytools.medium.com/ranking-rarity-understanding-rarity-calculation-methods-86ceaeb9b98c) and also uses trait normalization. [rarity.tools](https://rarity.tools/) is a popular NFT rarity ranking website.
 
-Collection information is stored in Firebase after calculation. 
+Collection information is stored in Firebase after calculation.
 
 ## ⚙ Tech
 
@@ -45,5 +45,4 @@ Collection information is stored in Firebase after calculation.
 
 ## 📦 Deployment
 
-Deployed on Heroku via Github.
-The repo also contains setup to run on a VM on Docker.
+The repo also contains setup to run with Docker.

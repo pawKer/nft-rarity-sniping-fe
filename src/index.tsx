@@ -7,12 +7,12 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 ReactDOM.render(
   <React.StrictMode>
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/col/:address" element={<App />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
